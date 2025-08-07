@@ -28,7 +28,7 @@ const translations = {
     language: "Idioma",
 
     // Hero
-    heroTitle: "ones hechas a mano con amor para todos los gustos",
+    heroTitle: "Decoraciones hechas a mano con amor para todos los gustos",
     heroSubtitle:
       "Creamos piezas únicas y personalizadas que llenan de magia cada rincón",
 
@@ -176,6 +176,9 @@ export default function HandmadeDecorationsPage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Gallery show more state
+  const [showAllGallery, setShowAllGallery] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Get form data
@@ -193,6 +196,27 @@ export default function HandmadeDecorationsPage() {
     window.open(url, "_blank");
     form.reset();
   };
+
+  const galleryImages = [
+    "biagio",
+    "daniel",
+    "david",
+    "ositos colgantes",
+    "decoracion pajaros",
+    "eda",
+    "hugo",
+    "julia2",
+    "lara",
+    "llaveros",
+    "llavero boton",
+    "llavero corazon",
+    "llavero flor",
+    "olaya",
+    "sofia",
+    "carmen",
+    "martin",
+    "marcos",
+  ];
 
   return (
     <>
@@ -304,7 +328,17 @@ export default function HandmadeDecorationsPage() {
         </section>
 
         {/* What We Do Section */}
-        <section className="py-20 px-4 bg-white/50">
+        <section
+          className="py-20 px-4 bg-white/50 relative"
+          style={{
+            backgroundImage: 'url(/img/logo.webp)',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundBlendMode: 'lighten',
+            opacity: 1,
+          }}
+        >
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-8">
               {t.whatWeDoTitle}
@@ -342,26 +376,7 @@ export default function HandmadeDecorationsPage() {
               {t.galleryTitle}
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
-              {[
-                "biagio",
-                "daniel",
-                "david",
-                "ositos colgantes",
-                "decoracion pajaros",
-                "eda",
-                "hugo",
-                "julia2",
-                "lara",
-                "llaveros",
-                "llavero boton",
-                "llavero corazon",
-                "llavero flor",
-                "olaya",
-                "sofia",
-                "carmen",
-                "martin",
-                "marcos",
-              ].map((img) => {
+              {(showAllGallery ? galleryImages : galleryImages.slice(0, 6)).map((img) => {
                 // Custom display names for certain images
                 let title = img;
                 if (
@@ -374,7 +389,13 @@ export default function HandmadeDecorationsPage() {
                     "llavero flor",
                   ].includes(img)
                 ) {
-                  title = img.charAt(0).toUpperCase() + img.slice(1);
+                  if (img === "ositos colgantes") {
+                    title = language === 'es' ? "Organizadores de horquillas" : "Bobby pin organizers";
+                  } else if (img === "decoracion pajaros") {
+                    title = language === 'es' ? "Decoración pajaros" : "Decoration with birds";
+                  } else {
+                    title = img.charAt(0).toUpperCase() + img.slice(1);
+                  }
                 } else if (img === "julia2") {
                   title = "Julia";
                 } else {
@@ -430,6 +451,16 @@ export default function HandmadeDecorationsPage() {
                 );
               })}
             </div>
+            {!showAllGallery && (
+              <div className="flex justify-center mt-8">
+                <button
+                  className="px-6 py-3 rounded-full bg-pink-200 text-pink-800 font-semibold shadow hover:bg-pink-300 transition-all"
+                  onClick={() => setShowAllGallery(true)}
+                >
+                  {language === 'es' ? 'Ver más' : 'See more'}
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -438,12 +469,25 @@ export default function HandmadeDecorationsPage() {
           id="order"
           className="py-20 px-4 bg-gradient-to-br from-pink-50 to-blue-50"
         >
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-2xl mx-auto relative z-10">
             <div className="text-center mb-12">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
                 {t.orderTitle}
               </h2>
               <p className="text-xl text-gray-600">{t.orderSubtitle}</p>
+            </div>
+            {/* Info message about deposit */}
+            <div className="flex items-center justify-center mb-8">
+              <div className="flex items-center gap-3 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3 shadow-sm max-w-2xl mx-auto w-full">
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-yellow-200 text-yellow-700 text-lg font-bold">
+                  !
+                </span>
+                <span className="text-sm md:text-base text-yellow-900 text-left">
+                  {language === 'es'
+                    ? 'Trabajamos con mucho amor en cada pedido. Por eso, solicitamos un adelanto del 50% al realizar tu encargo, y el resto lo abonas cuando recibas tu paquete.'
+                    : 'We put a lot of love into every order. That’s why we ask for a 50% deposit when you place your order, and the rest is paid upon delivery of your package.'}
+                </span>
+              </div>
             </div>
 
             <Card className="bg-white/80 border-0 shadow-xl rounded-3xl">
