@@ -519,7 +519,7 @@ export default function HandmadeDecorationsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text sm font-medium text-gray-700 mb-2">
                       {t.formFields.colors}
                     </label>
                     <Input
@@ -606,7 +606,7 @@ export default function HandmadeDecorationsPage() {
                   <>
                     Developed with 💕 by{" "}
                     <a
-                      href="https://clickandfix.netlify.app/"
+                      href="https://app.clickfix.work/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="underline hover:text-blue-600"
